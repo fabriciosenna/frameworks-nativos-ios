@@ -65,7 +65,7 @@
 				03AA174D1FC84154003CB2B8 /* AppDelegate.swift */,
 				03AA17621FC8433E003CB2B8 /* Home */,
 				03AA17691FC84A2D003CB2B8 /* Alunos */,
-				DF1F0D4E25A3A1CF00902CDA /* ImagePicker */,
+				DF1F0D4E25A3A1CF00902CDA /* Componentes */,
 				03AA17511FC84154003CB2B8 /* Main.storyboard */,
 				03AA17571FC84154003CB2B8 /* Assets.xcassets */,
 				03AA17591FC84154003CB2B8 /* LaunchScreen.storyboard */,
@@ -103,7 +103,6 @@
 		03AA17691FC84A2D003CB2B8 /* Alunos */ = {
 			isa = PBXGroup;
 			children = (
-				03AA176B1FC84A2D003CB2B8 /* View */,
 				03AA176A1FC84A2D003CB2B8 /* Controller */,
 			);
 			path = Alunos;
@@ -117,19 +116,12 @@
 			path = Controller;
 			sourceTree = "<group>";
 		};
-		03AA176B1FC84A2D003CB2B8 /* View */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		DF1F0D4E25A3A1CF00902CDA /* ImagePicker */ = {
+		DF1F0D4E25A3A1CF00902CDA /* Componentes */ = {
 			isa = PBXGroup;
 			children = (
 				DF1F0D4F25A3A1FA00902CDA /* ImagePicker.swift */,
 			);
-			path = ImagePicker;
+			path = Componentes;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
