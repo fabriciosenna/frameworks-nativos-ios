@@ -162,4 +162,7 @@ class HomeTableViewController: UITableViewController, UISearchBarDelegate,NSFetc
         }
     }
 
+    @IBAction func buttonCalculaMedia(_ sender: UIBarButtonItem) {
+        CalculaMediaAPI().calculaMediaGeralDosAlunos()
+    }
 }
