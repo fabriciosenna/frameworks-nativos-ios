@@ -51,17 +51,6 @@ class HomeTableViewController: UITableViewController, UISearchBarDelegate,NSFetc
         }
     }
     
-    // MARK: - FetchedResultsControllerDelegate
-    
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-        switch type {
-        case .delete:
-            // implementar
-            break
-        default:
-            tableView.reloadData()
-        }
-    }
     
     // MARK: - Table view data source
 
@@ -74,12 +63,7 @@ class HomeTableViewController: UITableViewController, UISearchBarDelegate,NSFetc
         let celula = tableView.dequeueReusableCell(withIdentifier: "celula-aluno", for: indexPath) as! HomeTableViewCell
         guard let aluno = gerenciadorDeResultados?.fetchedObjects![indexPath.row] else
         {return celula}
-        
-        celula.labelNomeDoAluno.text = aluno.nome
-        
-        if let imagemDoAluno = aluno.foto as? UIImage {
-            celula.imageAluno.image = imagemDoAluno
-        }
+        celula.configuraCelula(aluno)
 
         return celula
     }
@@ -95,6 +79,18 @@ class HomeTableViewController: UITableViewController, UISearchBarDelegate,NSFetc
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    
+    }
+    
+    // MARK: - FetchedResultsControllerDelegate
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        switch type {
+        case .delete:
+            // implementar
+            break
+        default:
+            tableView.reloadData()
+        }
     }
 
 }
