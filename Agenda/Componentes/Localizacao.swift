@@ -11,13 +11,14 @@ import CoreLocation
 
 class Localizacao: NSObject {
     
-    func converteEnderecoEmCoordenadas(endereco:String,local:@escaping(_ local:CLPlacemark) -> Void){
+    func converteEnderecoEmCoordenadas(endereco:String, local:@escaping(_ local:CLPlacemark) -> Void) {
         let conversor = CLGeocoder()
-        conversor.geocodeAddressString(endereco){
-            (listaDeLocalizacoes,error) in
-            if let localizacao = listaDeLocalizacoes?.first{
+        conversor.geocodeAddressString(endereco) { (listaDeLocalizacoes, error) in
+            if let localizacao = listaDeLocalizacoes?.first {
                 local(localizacao)
             }
         }
     }
+    
 }
+

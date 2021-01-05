@@ -20,6 +20,7 @@ class HomeTableViewCell: UITableViewCell {
         imageAluno.layer.cornerRadius = imageAluno.frame.width / 2
         imageAluno.layer.masksToBounds = true
         
+        
         if let imagemDoAluno = aluno.foto as? UIImage {
             imageAluno.image = imagemDoAluno
         }

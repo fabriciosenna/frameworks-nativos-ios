@@ -42,10 +42,6 @@ class AlunoViewController: UIViewController,ImagePickerFotoSelecionada {
         NotificationCenter.default.addObserver(self, selector: #selector(aumentarScrollView(_:)), name: .UIKeyboardWillShow, object: nil)
     }
     
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.view.endEditing(true)
-    }
-    
     // MARK: - Métodos
     func setup(){
         imagePicker.delegate = self
@@ -102,22 +98,24 @@ class AlunoViewController: UIViewController,ImagePickerFotoSelecionada {
     
     
     @IBAction func buttonSalvar(_ sender: UIButton) {
-        if aluno == nil{
+        if aluno == nil {
             aluno = Aluno(context: contexto)
-        }else{
-            aluno?.nome = textFieldNome.text
-            aluno?.endereco = textFieldEndereco.text
-            aluno?.telefone = textFieldTelefone.text
-            aluno?.site = textFieldSite.text
-            aluno?.nota = (textFieldNota.text! as NSString).doubleValue
-            aluno?.foto = imageAluno.image
         }
-  
-        do{
+        aluno?.nome = textFieldNome.text
+        aluno?.endereco = textFieldEndereco.text
+        aluno?.telefone = textFieldTelefone.text
+        aluno?.site = textFieldSite.text
+        aluno?.nota = (textFieldNota.text! as NSString).doubleValue
+        aluno?.foto = imageAluno.image
+        
+        do {
             try contexto.save()
             navigationController?.popViewController(animated: true)
-        }catch{
+        } catch {
             print(error.localizedDescription)
         }
     }
+//    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        self.view.endEditing(true)
+//    }
 }
