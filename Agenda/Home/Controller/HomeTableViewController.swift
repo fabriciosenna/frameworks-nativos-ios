@@ -7,18 +7,25 @@
 //
 
 import UIKit
+import CoreData
 
-class HomeTableViewController: UITableViewController, UISearchBarDelegate {
+class HomeTableViewController: UITableViewController, UISearchBarDelegate,NSFetchedResultsControllerDelegate {
     
     //MARK: - Variáveis
     
+    var contexto:NSManagedObjectContext{
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        return appDelegate.persistentContainer.viewContext
+    }
     let searchController = UISearchController(searchResultsController: nil)
+    var gerenciadorDeResultados:NSFetchedResultsController<Aluno>?
     
     // MARK: - View Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.configuraSearch()
+        self.recuperaAluno()
     }
     
     // MARK: - Métodos
@@ -29,16 +36,56 @@ class HomeTableViewController: UITableViewController, UISearchBarDelegate {
         self.navigationItem.searchController = searchController
     }
 
+    func recuperaAluno(){
+        let pesquisaAluno:NSFetchRequest<Aluno> = Aluno.fetchRequest()
+        let ordenaPorNome = NSSortDescriptor(key: "nome", ascending: true)
+        pesquisaAluno.sortDescriptors = [ordenaPorNome]
+        
+        gerenciadorDeResultados = NSFetchedResultsController(fetchRequest: pesquisaAluno, managedObjectContext: contexto, sectionNameKeyPath: nil, cacheName: nil)
+        gerenciadorDeResultados?.delegate = self
+        
+        do{
+            try gerenciadorDeResultados?.performFetch()
+        }catch{
+            print(error.localizedDescription)
+        }
+    }
+    
+    // MARK: - FetchedResultsControllerDelegate
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        switch type {
+        case .delete:
+            // implementar
+            break
+        default:
+            tableView.reloadData()
+        }
+    }
+    
     // MARK: - Table view data source
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        guard let contadorListaDeAlunos = gerenciadorDeResultados?.fetchedObjects?.count else {return 0}
+        return contadorListaDeAlunos
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "celula-aluno", for: indexPath) as! HomeTableViewCell
+        let celula = tableView.dequeueReusableCell(withIdentifier: "celula-aluno", for: indexPath) as! HomeTableViewCell
+        guard let aluno = gerenciadorDeResultados?.fetchedObjects![indexPath.row] else
+        {return celula}
+        
+        celula.labelNomeDoAluno.text = aluno.nome
+        
+        if let imagemDoAluno = aluno.foto as? UIImage {
+            celula.imageAluno.image = imagemDoAluno
+        }
 
-        return cell
+        return celula
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 85
     }
 
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
